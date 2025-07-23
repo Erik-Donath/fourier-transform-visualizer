@@ -1,6 +1,6 @@
 {
-  "name": "react-github-pages",
-  "description": "React Github Pages",
+  "name": "fourier-transformation-visualisation",
+  "description": "Visualisation of the Fourier Transformation.",
   "homepage": "",
   "private": true,
   "version": "0.0.0",
