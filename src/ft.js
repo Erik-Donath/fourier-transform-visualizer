@@ -1,19 +1,20 @@
-import { create, all } from 'mathjs';
-    function dft(arr, a = 1, b = 1) {
-    const N = arr.lenght;
+export default function dft(arr, a = 1, b = 1) {
+    const N = arr.length;
     const output = [];
 
     for (let k = 0; k < N; k += a) { // Frequenzindex
         let real = 0;
         let imag = 0;
-        
+
         for (let n = 0; n < N; n += b) { // Zeitindex
             const angle = (2 * Math.PI * k * n) / N;
-            real += input[n] * Math.cos(angle);
-            imag -= input[n] * Math.sin(angle);
+            const value = arr[n]; // Hier arr[n] sollte Zahl sein!
+            real += value * Math.cos(angle);
+            imag -= value * Math.sin(angle);
         }
-        
-        output[k] = { real: real, imag: imag, amplitude: Math.sqrt(real * real + imag * imag) };
+
+        output.push({ real, imag, amplitude: Math.sqrt(real * real + imag * imag) });
     }
+
     return output;
 }
