@@ -1,93 +1,254 @@
-import { evaluate } from "mathjs";
-import { useState } from "react";
-import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import dft from "./ft";
+import { useState, useMemo, useCallback } from 'react';
+import { BlockMath } from 'react-katex';
+import 'katex/dist/katex.min.css';
+
+// Utilities
+import {
+  SIGNAL_CONFIG,
+  generateSignalFromComponents,
+  generateSignalFromExpression,
+  computeDFT,
+  extractSignificantFrequencies,
+  reconstructExpression,
+  generateTimeData,
+  generateFrequencyData,
+  calculateOptimalFrequencyRange,
+  sanitizeFrequencyComponent,
+} from './utils/fourier';
+
+// Components
+import Header from './components/Header';
+import ModeSelector from './components/ModeSelector';
+import FrequencyComponentsEditor from './components/FrequencyComponentsEditor';
+import ExpressionEditor from './components/ExpressionEditor';
+import SignalCharts from './components/SignalCharts';
+import SpectrumAnalysis from './components/SpectrumAnalysis';
+import Footer from './components/Footer';
+
+// Styles
+import './App.css';
+
+const {
+  DEFAULT_SAMPLE_COUNT,
+  DEFAULT_X_START,
+  DEFAULT_X_END,
+} = SIGNAL_CONFIG;
 
 function App() {
-  const [data, setData] = useState([]);
-  const [ftData, setFTData] = useState([]);
+  // Core state
+  const [mode, setMode] = useState('components');
+  const [timeRange, setTimeRange] = useState({
+    start: DEFAULT_X_START,
+    end: DEFAULT_X_END,
+  });
 
-  let func = "0";
-  for (let i = 1; i <= 10; i++) {
-    func += "+" + i + "sin(" + i + "x)";
-  }
+  // Component mode state
+  const [frequencyComponents, setFrequencyComponents] = useState([
+    { freq: 2, amp: 1, phase: 0 },
+    { freq: 5, amp: 0.5, phase: 0 },
+  ]);
 
-  function handle() {
-    const arr = [];
-    const yArr = [];
-    const xmin = 0;
-    const xmax = 2 * Math.PI;
-    const N = 1000;
-    const dx = (xmax - xmin) / N;
+  // Expression mode state
+  const [expression, setExpression] = useState('sin(2*pi*2*t) + 0.33*cos(2*pi*7*t + 2)');
+  const [expressionError, setExpressionError] = useState(null);
 
-    for (let i = 0; i < N; i++) {
-      const x = xmin + i * dx;
-      let y;
-      try {
-        y = evaluate(func, { x });
-        if (typeof y !== "number" || isNaN(y)) y = 0;
-      } catch {
-        y = 0;
+  // Generate signal based on current mode
+  const signal = useMemo(() => {
+    try {
+      if (mode === 'expression') {
+        const result = generateSignalFromExpression(
+          DEFAULT_SAMPLE_COUNT,
+          expression,
+          timeRange.start,
+          timeRange.end
+        );
+        setExpressionError(null);
+        return result;
+      } else {
+        setExpressionError(null);
+        return generateSignalFromComponents(
+          DEFAULT_SAMPLE_COUNT,
+          frequencyComponents,
+          timeRange.start,
+          timeRange.end
+        );
       }
-      arr.push({ x, y });
-      yArr.push(y);
+    } catch (error) {
+      setExpressionError(error.message);
+      return new Array(DEFAULT_SAMPLE_COUNT).fill(0);
     }
-    setData(arr);
+  }, [mode, expression, frequencyComponents, timeRange]);
 
-    const dftResult = dft(yArr);
-    const nMax = Math.floor(N / 2);
+  // Compute frequency spectrum
+  const spectrum = useMemo(() => computeDFT(signal), [signal]);
 
-    // Plotte nur die ersten 15 Frequenzanteile (bei N=1000 liegen Peaks exakt bei 1...10)
-    const ftPlotData = dftResult.slice(1, 16).map((freq, k) => ({
-      x: k + 1,
-      y: freq.amplitude
-    }));
+  // Calculate sample rate and generate chart data
+  const sampleRate = useMemo(() => 
+    DEFAULT_SAMPLE_COUNT / (timeRange.end - timeRange.start), 
+    [timeRange]
+  );
 
-    setFTData(ftPlotData);
-  }
+  const timeData = useMemo(() => 
+    generateTimeData(signal, timeRange.start, timeRange.end), 
+    [signal, timeRange]
+  );
+
+  const frequencyData = useMemo(() => 
+    generateFrequencyData(spectrum, sampleRate), 
+    [spectrum, sampleRate]
+  );
+
+  // Calculate optimal frequency range for display
+  const frequencyRange = useMemo(() => 
+    calculateOptimalFrequencyRange(frequencyData, sampleRate / 2), 
+    [frequencyData, sampleRate]
+  );
+
+  // Extract significant frequencies for analysis
+  const significantFrequencies = useMemo(() => 
+    extractSignificantFrequencies(spectrum, sampleRate, 0.05), 
+    [spectrum, sampleRate]
+  );
+
+  // Reconstruct expression from spectrum
+  const reconstructedExpression = useMemo(() => 
+    reconstructExpression(significantFrequencies, 0.05), 
+    [significantFrequencies]
+  );
+
+  // Event handlers
+  const handleModeChange = useCallback((newMode) => {
+    setMode(newMode);
+    setExpressionError(null);
+  }, []);
+
+  const handleTimeRangeChange = useCallback((newRange) => {
+    if (newRange.start < newRange.end) {
+      setTimeRange(newRange);
+    }
+  }, []);
+
+  const handleFrequencyComponentUpdate = useCallback((index, field, value) => {
+    setFrequencyComponents(prev => 
+      prev.map((component, i) => 
+        i === index 
+          ? sanitizeFrequencyComponent({ ...component, [field]: value })
+          : component
+      )
+    );
+  }, []);
+
+  const handleAddFrequencyComponent = useCallback(() => {
+    setFrequencyComponents(prev => [
+      ...prev,
+      { freq: 1, amp: 1, phase: 0 }
+    ]);
+  }, []);
+
+  const handleRemoveFrequencyComponent = useCallback((index) => {
+    setFrequencyComponents(prev => prev.filter((_, i) => i !== index));
+  }, []);
+
+  const handleExpressionChange = useCallback((newExpression) => {
+    setExpression(newExpression);
+    setExpressionError(null);
+  }, []);
+
+  // Calculate highlight area for time chart
+  const highlightArea = useMemo(() => {
+    const duration = timeRange.end - timeRange.start;
+    return {
+      start: timeRange.start + duration * 0.2,
+      end: timeRange.start + duration * 0.6,
+    };
+  }, [timeRange]);
 
   return (
-    <>
-      <h1>{func}</h1>
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={data}>
-          <CartesianGrid stroke="#d0dadf" />
-          <XAxis
-            dataKey="x"
-            type="number"
-            label={{ value: "x", position: "insideBottomRight", offset: 0 }}
+    <div className="app">
+      <Header />
+      
+      <main className="app-main">
+        {/* Introduction Section */}
+        <section className="intro-section">
+          <div className="math-explanation">
+            <h3>Die Fourier-Transformation verstehen</h3>
+            <p>
+              Die Fourier-Transformation zerlegt jedes periodische Signal in seine 
+              Frequenzkomponenten. Jede komplexe Wellenform kann als Summe einfacher 
+              Sinus- und Kosinuswellen mit unterschiedlichen Frequenzen, Amplituden und Phasen dargestellt werden.
+            </p>
+            
+            <div className="mode-explanation">
+              <h4>Zwei Analysemodi:</h4>
+              <ul>
+                <li>
+                  <strong>Komponenten-Modus:</strong> Erstelle Signale durch Kombination einzelner 
+                  Frequenzkomponenten mit einstellbaren Parametern
+                </li>
+                <li>
+                  <strong>Formel-Modus:</strong> Gib mathematische Formeln ein und 
+                  analysiere deren Frequenzinhalt
+                </li>
+              </ul>
+            </div>
+
+            <div className="formula-section">
+              <p><strong>Die Diskrete Fourier-Transformation (DFT):</strong></p>
+              <BlockMath math="X_k = \frac{1}{N} \sum_{n=0}^{N-1} x_n \cdot e^{-2\pi i kn / N}" />
+              <p className="formula-description">
+                Wobei <em>X<sub>k</sub></em> die Frequenzkomponente bei Frequenz <em>k</em> darstellt 
+                und <em>x<sub>n</sub></em> die Zeitbereichsabtastwerte sind.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Controls Section */}
+        <section className="controls-section">
+          <ModeSelector 
+            mode={mode} 
+            onModeChange={handleModeChange}
+          >
+            {mode === 'components' && (
+              <FrequencyComponentsEditor
+                components={frequencyComponents}
+                onUpdateComponent={handleFrequencyComponentUpdate}
+                onAddComponent={handleAddFrequencyComponent}
+                onRemoveComponent={handleRemoveFrequencyComponent}
+              />
+            )}
+
+            {mode === 'expression' && (
+              <ExpressionEditor
+                expression={expression}
+                onExpressionChange={handleExpressionChange}
+                error={expressionError}
+              />
+            )}
+          </ModeSelector>
+        </section>
+
+        {/* Visualization Section */}
+        <section className="visualization-section">
+          <SignalCharts
+            timeData={timeData}
+            frequencyData={frequencyData}
+            timeRange={timeRange}
+            frequencyRange={frequencyRange}
+            highlightArea={highlightArea}
+            onTimeRangeChange={handleTimeRangeChange}
           />
-          <YAxis
-            dataKey="y"
-            type="number"
-            label={{ value: "f(x)", position: "insideTopLeft", offset: 0 }}
+
+          <SpectrumAnalysis
+            significantFrequencies={significantFrequencies}
+            reconstructedExpression={reconstructedExpression}
+            sampleRate={sampleRate}
           />
-          <Tooltip />
-          <Line type="monotone" dataKey="y" stroke="#8884d8" dot={false} isAnimationActive={false} />
-        </LineChart>
-      </ResponsiveContainer>
-      <button onClick={handle}>Render!!!!!</button>
-      <br /><br /><br />
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={ftData}>
-          <CartesianGrid stroke="#d0dadf" />
-          <XAxis
-            dataKey="x"
-            type="number"
-            label={{ value: "Frequenz", position: "insideBottomRight", offset: 0 }}
-            domain={['auto', 'auto']}
-          />
-          <YAxis
-            dataKey="y"
-            type="number"
-            label={{ value: "Amplitude", position: "insideTopLeft", offset: 0 }}
-            domain={['auto', 'auto']}
-          />
-          <Tooltip />
-          <Line type="monotone" dataKey="y" stroke="#8884d8" dot={false} isAnimationActive={false} />
-        </LineChart>
-      </ResponsiveContainer>
-    </>
+        </section>
+      </main>
+
+      <Footer />
+    </div>
   );
 }
 

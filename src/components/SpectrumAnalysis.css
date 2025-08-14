@@ -1,0 +1,138 @@
+.spectrum-analysis {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.analysis-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.analysis-section h4 {
+  margin: 0;
+  color: var(--primary-color);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.reconstructed-expression {
+  background: white;
+  border-radius: var(--border-radius-small);
+  padding: 1.5rem;
+  border: 1px solid var(--border-color);
+  overflow-x: auto;
+}
+
+.reconstructed-expression .katex-display {
+  margin: 0;
+}
+
+.no-signal,
+.no-components {
+  color: var(--text-secondary);
+  font-style: italic;
+  text-align: center;
+  padding: 2rem;
+}
+
+.frequency-table-container {
+  overflow-x: auto;
+  border-radius: var(--border-radius-small);
+  border: 1px solid var(--border-color);
+}
+
+.frequency-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+.frequency-table th,
+.frequency-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.frequency-table th {
+  background: var(--background-light);
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.frequency-table td {
+  font-family: "Fira Code", monospace;
+  font-size: 0.85rem;
+}
+
+.power-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.power-bar {
+  flex: 1;
+  height: 0.5rem;
+  background: var(--border-color);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.power-fill {
+  height: 100%;
+  background: var(--primary-color);
+  transition: width 0.3s ease;
+}
+
+.summary-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  background: var(--background-light);
+  padding: 1.5rem;
+  border-radius: var(--border-radius-small);
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stat-label {
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.stat-value {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-family: "Fira Code", monospace;
+}
+
+@media (max-width: 768px) {
+  .summary-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .power-cell {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .frequency-table {
+    font-size: 0.8rem;
+  }
+
+  .frequency-table th,
+  .frequency-table td {
+    padding: 0.5rem;
+  }
+}

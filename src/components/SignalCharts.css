@@ -1,0 +1,204 @@
+.signal-charts {
+  background: white;
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-medium);
+  border: 1px solid var(--border-color);
+  margin-bottom: 2rem;
+}
+
+/* Time Range Controls */
+.time-range-section {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.time-range-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.time-range-header h3 {
+  margin: 0;
+  color: var(--primary-color);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.duration-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  background: rgba(82, 196, 26, 0.1);
+  color: var(--success-color);
+}
+
+.time-range-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.time-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.input-group label {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.time-input {
+  padding: 0.75rem;
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius-small);
+  font-size: 1rem;
+  font-family: "Fira Code", monospace;
+  transition: var(--transition);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.time-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(38, 66, 240, 0.1);
+  outline: none;
+}
+
+.input-unit {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  pointer-events: none;
+}
+
+.time-presets {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.presets-label {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.preset-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.preset-button {
+  padding: 0.5rem 1rem;
+  background: var(--background-light);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.preset-button:hover {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+}
+
+/* Charts */
+.charts-header {
+  margin-bottom: 1.5rem;
+}
+
+.charts-header h3 {
+  margin: 0;
+  color: var(--primary-color);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.charts-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.chart-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.chart-title {
+  margin: 0;
+  color: var(--primary-color);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.chart-wrapper {
+  background: white;
+  border-radius: var(--border-radius-small);
+  padding: 1rem;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  min-height: 300px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .time-inputs {
+    grid-template-columns: 1fr;
+  }
+
+  .time-range-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .charts-container {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .signal-charts {
+    padding: 1rem;
+  }
+
+  .chart-wrapper {
+    padding: 0.5rem;
+  }
+
+  .preset-button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+}

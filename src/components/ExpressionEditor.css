@@ -1,0 +1,114 @@
+.expression-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.editor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.editor-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin: 0;
+}
+
+.expression-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.expression-input-group label {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.expression-input {
+  padding: 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius-small);
+  font-family: "Fira Code", monospace;
+  font-size: 1rem;
+  resize: vertical;
+  transition: var(--transition);
+}
+
+.expression-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(38, 66, 240, 0.1);
+  outline: none;
+}
+
+.expression-input.error {
+  border-color: var(--error-color);
+}
+
+.expression-help h4,
+.expression-examples h4 {
+  margin: 0 0 0.75rem 0;
+  color: var(--primary-color);
+  font-size: 1rem;
+}
+
+.function-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.function-item {
+  background: var(--background-light);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--border-radius-small);
+  font-size: 0.85rem;
+  border: 1px solid var(--border-color);
+}
+
+.example-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.example-button {
+  background: var(--background-light);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-small);
+  padding: 0.75rem;
+  text-align: left;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: inherit;
+}
+
+.example-button:hover {
+  background: white;
+  border-color: var(--primary-color);
+}
+
+.example-button code {
+  font-size: 0.9rem;
+  background: none;
+  padding: 0;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+@media (max-width: 480px) {
+  .example-button {
+    padding: 0.5rem;
+  }
+
+  .example-button code {
+    font-size: 0.8rem;
+  }
+}

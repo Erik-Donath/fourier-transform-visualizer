@@ -1,0 +1,470 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-main {
+  flex: 1;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Introduction Section */
+.intro-section {
+  margin-bottom: 3rem;
+}
+
+.math-explanation {
+  background: var(--background-light);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  box-shadow: var(--shadow-light);
+  border-left: 4px solid var(--primary-color);
+}
+
+.math-explanation h3 {
+  margin-top: 0;
+  color: var(--primary-color);
+  font-size: 1.5rem;
+}
+
+.math-explanation p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--text-primary);
+}
+
+.mode-explanation {
+  margin: 1.5rem 0;
+}
+
+.mode-explanation h4 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.mode-explanation ul {
+  list-style: none;
+  padding: 0;
+}
+
+.mode-explanation li {
+  background: white;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: var(--border-radius-small);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-left: 3px solid var(--secondary-color);
+}
+
+.mode-explanation strong {
+  color: var(--primary-color);
+}
+
+.formula-section {
+  background: white;
+  padding: 1.5rem;
+  border-radius: var(--border-radius-small);
+  margin-top: 1.5rem;
+  box-shadow: var(--shadow-light);
+}
+
+.formula-section .katex-display {
+  margin: 1rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.formula-section .katex {
+  font-size: 1.2em;
+}
+
+.formula-description {
+  font-style: italic;
+  color: var(--text-secondary);
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+
+/* Controls Section */
+.controls-section {
+  margin-bottom: 3rem;
+}
+
+.controls-section > * {
+  margin-bottom: 2rem;
+}
+
+.controls-section > *:last-child {
+  margin-bottom: 0;
+}
+
+/* Visualization Section */
+.visualization-section {
+  margin-bottom: 2rem;
+}
+
+.visualization-section > * {
+  margin-bottom: 2rem;
+}
+
+.visualization-section > *:last-child {
+  margin-bottom: 0;
+}
+
+/* Section Headers */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.section-header h2 {
+  margin: 0;
+  color: var(--primary-color);
+  font-size: 1.8rem;
+}
+
+.section-header .section-icon {
+  width: 2rem;
+  height: 2rem;
+  background: var(--primary-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+}
+
+/* Card Layout */
+.card {
+  background: white;
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-medium);
+  border: 1px solid var(--border-color);
+  transition: var(--transition);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin: 0;
+}
+
+.card-content {
+  flex: 1;
+}
+
+/* Connected Card Styling */
+.connected-card {
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  border-top: none;
+  margin-top: 0;
+}
+
+/* Grid Layouts */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.grid-auto {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Status Indicators */
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.status-indicator.success {
+  background: rgba(82, 196, 26, 0.1);
+  color: var(--success-color);
+}
+
+.status-indicator.error {
+  background: rgba(255, 77, 79, 0.1);
+  color: var(--error-color);
+}
+
+.status-indicator.warning {
+  background: rgba(247, 139, 28, 0.1);
+  color: var(--secondary-color);
+}
+
+/* Loading States */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  color: var(--text-secondary);
+}
+
+.loading::before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border-color);
+  border-top: 2px solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-right: 0.5rem;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error States */
+.error-message {
+  background: rgba(255, 77, 79, 0.1);
+  border: 1px solid rgba(255, 77, 79, 0.3);
+  border-radius: var(--border-radius-small);
+  padding: 1rem;
+  color: var(--error-color);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.error-message::before {
+  content: "⚠️";
+  font-size: 1.2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .app-main {
+    max-width: 100%;
+    padding: 1.5rem;
+  }
+
+  .grid-2 {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-main {
+    padding: 1rem;
+  }
+
+  .math-explanation {
+    padding: 1.5rem;
+  }
+
+  .math-explanation h3 {
+    font-size: 1.3rem;
+  }
+
+  .math-explanation p {
+    font-size: 1rem;
+  }
+
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-auto {
+    grid-template-columns: 1fr;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .section-header h2 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-main {
+    padding: 0.5rem;
+  }
+
+  .math-explanation {
+    padding: 1rem;
+  }
+
+  .card {
+    padding: 1rem;
+  }
+
+  .formula-section .katex {
+    font-size: 1em;
+  }
+
+  .mode-explanation li {
+    padding: 0.75rem;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .app {
+    background: white;
+  }
+
+  .app-main {
+    max-width: none;
+    padding: 1rem;
+  }
+
+  .card {
+    box-shadow: none;
+    border: 1px solid #ccc;
+    break-inside: avoid;
+  }
+
+  .section-header {
+    break-after: avoid;
+  }
+
+  button {
+    display: none;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .card {
+    border: 2px solid var(--text-primary);
+  }
+
+  .math-explanation {
+    border-left-width: 6px;
+  }
+
+  .status-indicator {
+    border: 1px solid currentColor;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus Management */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: var(--primary-color);
+  color: white;
+  padding: 8px;
+  text-decoration: none;
+  border-radius: 4px;
+  z-index: 1000;
+}
+
+.skip-link:focus {
+  top: 6px;
+}
+
+/* Utility Classes */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+.mb-1 {
+  margin-bottom: 0.5rem !important;
+}
+.mb-2 {
+  margin-bottom: 1rem !important;
+}
+.mb-3 {
+  margin-bottom: 1.5rem !important;
+}
+.mb-4 {
+  margin-bottom: 2rem !important;
+}
+
+.mt-0 {
+  margin-top: 0 !important;
+}
+.mt-1 {
+  margin-top: 0.5rem !important;
+}
+.mt-2 {
+  margin-top: 1rem !important;
+}
+.mt-3 {
+  margin-top: 1.5rem !important;
+}
+.mt-4 {
+  margin-top: 2rem !important;
+}

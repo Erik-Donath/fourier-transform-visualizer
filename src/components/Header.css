@@ -1,0 +1,107 @@
+.app-header {
+  background: white;
+  box-shadow: var(--shadow-medium);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-icon {
+  flex-shrink: 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(38, 66, 240, 0.2);
+}
+
+.header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.header-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.header-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0;
+  font-weight: 500;
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--background-light);
+  color: var(--primary-color);
+  text-decoration: none;
+  border-radius: var(--border-radius-small);
+  font-weight: 500;
+  transition: var(--transition);
+  border: 1px solid var(--border-color);
+}
+
+.nav-link:hover {
+  background: var(--primary-color);
+  color: white;
+  box-shadow: 0 4px 12px rgba(38, 66, 240, 0.3);
+}
+
+.nav-icon {
+  font-size: 1.1rem;
+}
+
+.github-icon {
+  border-radius: 50%;
+  transition: var(--transition);
+}
+
+.nav-link:hover .github-icon {
+  filter: brightness(0) invert(1);
+}
+
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .header-brand {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .header-title {
+    font-size: 1.5rem;
+  }
+}
