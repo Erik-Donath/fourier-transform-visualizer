@@ -1,7 +1,7 @@
 # Fourier-Transform-Visualisierer
 
 [![GitHub Pages](https://img.shields.io/badge/demo-online-green)](https://erik-donath.github.io/fourier-transform-visualizer/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![React](https://img.shields.io/badge/React-18.3.1-blue.svg)](https://reactjs.org/)
 [![Vite](https://img.shields.io/badge/Vite-6.0.5-646CFF.svg)](https://vitejs.dev/)
 
