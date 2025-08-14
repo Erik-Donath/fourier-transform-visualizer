@@ -6,7 +6,7 @@ function Header() {
       <div className="header-content">
         <div className="header-brand">
           <img 
-            src="/icon.svg" 
+            src="icon.svg" 
             alt="Fourier Transform Icon" 
             className="header-icon"
             width="48"
